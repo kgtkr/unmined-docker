@@ -20,7 +20,7 @@ jobs:
         uses: kgtkr/docker-tags-gen-action@master
         id: tags
         with:
-          name: ghcr.io/${{ github.repository_owner }}/unmined
+          name: ghcr.io/${{ github.repository_owner }}/unmined-docker
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
