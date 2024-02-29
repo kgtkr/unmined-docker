@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.04 as download
 
 WORKDIR /unmined
 
@@ -6,6 +6,10 @@ RUN apt-get update && apt-get install -y \
     wget
 
 RUN wget -O unmined.tar.gz "https://unmined.net/download/unmined-cli-linux-x64-dev/?tmstv=1709236218" && \
-    tar -xvf unmined.tar.gz && \
-    mv unmined-cli_0.19.31-dev_linux-x64/* . && \
-    chmod +x unmined-cli
+    tar -xvf unmined.tar.gz
+
+FROM mcr.microsoft.com/dotnet/runtime:8.0
+
+WORKDIR /unmined
+COPY --from=download /unmined/unmined-cli_0.19.31-dev_linux-x64 /unmined
+RUN chmod +x /unmined/unmined-cli
